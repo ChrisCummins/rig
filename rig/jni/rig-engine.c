@@ -652,7 +652,7 @@ asset_input_cb (RutInputRegion *region,
               {
                 material =
                   rut_entity_get_component (entity, RUT_COMPONENT_TYPE_MATERIAL);
-                
+
                 if (!material)
                   {  
                     material = rut_material_new (engine->ctx, asset);
@@ -726,7 +726,10 @@ asset_input_cb (RutInputRegion *region,
                       }
                   }
                 else if (geom)
-                  rut_entity_remove_component (entity, geom);
+                  {
+                    rut_entity_remove_component (entity, geom);
+                    rut_entity_set_primitive_cache (entity, 0, NULL);
+                  }
 
                 /* XXX: For now we forcibly remove any material from
                  * the entity when adding a ply model geometry
@@ -771,7 +774,10 @@ asset_input_cb (RutInputRegion *region,
                   if (geom && rut_object_get_type (geom) == &rut_text_type)
                     return RUT_INPUT_EVENT_STATUS_HANDLED;
                   else if (geom)
-                    rut_entity_remove_component (entity, geom);
+                    {
+                      rut_entity_remove_component (entity, geom);
+                      rut_entity_set_primitive_cache (entity, 0, NULL);
+                    }
 
                   text = rut_text_new_with_text (engine->ctx, "Sans 60px", "text");
                   cogl_color_init_from_4f (&color, 1, 1, 1, 1);
@@ -796,7 +802,10 @@ asset_input_cb (RutInputRegion *region,
                       break;
                     }
                   else if (geom)
-                    rut_entity_remove_component (entity, geom);
+                    {
+                      rut_entity_remove_component (entity, geom);
+                      rut_entity_set_primitive_cache (entity, 0, NULL);
+                    }
 
                   material =
                     rut_entity_get_component (entity, RUT_COMPONENT_TYPE_MATERIAL);
@@ -850,7 +859,10 @@ asset_input_cb (RutInputRegion *region,
                       break;
                     }
                   else if (geom)
-                    rut_entity_remove_component (entity, geom);
+                    {
+                      rut_entity_remove_component (entity, geom);
+                      rut_entity_set_primitive_cache (entity, 0, NULL);
+                    }
 
                   material =
                     rut_entity_get_component (entity,
@@ -907,7 +919,10 @@ asset_input_cb (RutInputRegion *region,
                       break;
                     }
                   else if (geom)
-                    rut_entity_remove_component (entity, geom);
+                    {
+                      rut_entity_remove_component (entity, geom);
+                      rut_entity_set_primitive_cache (entity, 0, NULL);
+                    }
 
                   material =
                     rut_entity_get_component (entity,

@@ -63,6 +63,8 @@ struct _RutModel
 
   CoglPipeline *pipeline_cache;
   int normal_matrix_uniform;
+  GQueue *polygons;
+  int num_polygons;
 };
 
 void

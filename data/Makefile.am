@@ -52,7 +52,8 @@ dist_assets_DATA = \
 	logic.png \
 	thumb-video.png \
 	pointalism.png \
-	component-delete.png
+	component-delete.png \
+	particle-engine.png
 
 if HAVE_GTK
 dist_assets_DATA += \

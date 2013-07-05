@@ -149,6 +149,7 @@ struct _RigEngine
   RutAsset *circle_builtin_asset;
   RutAsset *diamond_builtin_asset;
   RutAsset *pointalism_grid_builtin_asset;
+  RutAsset *particle_engine_builtin_asset;
   GList *asset_input_closures;
   GList *asset_enumerators;
 

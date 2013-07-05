@@ -907,6 +907,14 @@ apply_asset_input_to_entity (RutEntity *entity,
         {
           RutText *text;
           CoglColor color;
+          RutParticleEngine *particle_engine;
+
+          particle_engine = rut_entity_get_component (entity,
+                                                      RUT_COMPONENT_TYPE_PARTICLE_ENGINE);
+
+          if (engine)
+            rut_entity_remove_component (entity, particle_engine);
+
 
           geom = rut_entity_get_component (entity,
                                            RUT_COMPONENT_TYPE_GEOMETRY);
@@ -1074,6 +1082,18 @@ apply_asset_input_to_entity (RutEntity *entity,
 
           rig_renderer_dirty_entity_state (entity);
           rut_entity_set_primitive_cache (entity, 0, NULL);
+        }
+      else if (asset == engine->particle_engine_builtin_asset)
+        {
+          RutParticleEngine *particle_engine = rut_entity_get_component (entity,
+                                                                         RUT_COMPONENT_TYPE_PARTICLE_ENGINE);
+          if (particle_engine)
+            break;
+
+          particle_engine = rut_particle_engine_new (engine->ctx);
+          rut_entity_add_component (entity, particle_engine);
+
+          rig_renderer_dirty_entity_state (entity);
         }
 
       break;
@@ -1580,6 +1600,12 @@ load_builtin_assets (RigEngine *engine)
   rut_asset_add_inferred_tag (engine->text_builtin_asset, "builtin");
   rut_asset_add_inferred_tag (engine->text_builtin_asset, "geom");
   rut_asset_add_inferred_tag (engine->text_builtin_asset, "geometry");
+
+  engine->particle_engine_builtin_asset = rut_asset_new_builtin (engine->ctx, "particle-engine.png");
+  rut_asset_add_inferred_tag (engine->particle_engine_builtin_asset, "particle");
+  rut_asset_add_inferred_tag (engine->particle_engine_builtin_asset, "engine");
+  rut_asset_add_inferred_tag (engine->particle_engine_builtin_asset, "emitter");
+  rut_asset_add_inferred_tag (engine->particle_engine_builtin_asset, "builtin");
 }
 
 static void
@@ -1589,6 +1615,7 @@ free_builtin_assets (RigEngine *engine)
   rut_refable_unref (engine->circle_builtin_asset);
   rut_refable_unref (engine->pointalism_grid_builtin_asset);
   rut_refable_unref (engine->text_builtin_asset);
+  rut_refable_unref (engine->particle_engine_builtin_asset);
 }
 
 static void
@@ -3214,6 +3241,10 @@ rig_load_asset_list (RigEngine *engine)
   rut_refable_ref (engine->text_builtin_asset);
   engine->assets = g_list_prepend (engine->assets,
                                    engine->text_builtin_asset);
+
+  rut_refable_ref (engine->particle_engine_builtin_asset);
+  engine->assets = g_list_prepend (engine->assets,
+                                   engine->particle_engine_builtin_asset);
 
   g_object_unref (assets_dir);
 
